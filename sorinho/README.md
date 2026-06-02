@@ -34,4 +34,8 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias e boas prátic
 * **[TypeScript](https://www.typescriptlang.org/)** (Tipagem estática e interfaces rigorosas)
 * **[Styled-Components](https://styled-components.com/)** (CSS-in-JS, escopo isolado e CSS Grid/Flexbox)
 * **[React Router DOM](https://reactrouter.com/)** (Gerenciamento de rotas e navegação)
+<<<<<<< HEAD
 * **[React Icons](https://react-icons.github.io/react-icons/)** (Iconografia da interface)
+=======
+* **[React Icons](https://react-icons.github.io/react-icons/)** (Iconografia da interface)
+>>>>>>> b0970cf61ba0392747ec39641686ca3449bed1f7
