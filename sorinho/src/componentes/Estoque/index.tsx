@@ -1,23 +1,16 @@
 import { useState } from "react";
 import * as S from "./estilos";
+
 import {
+    FaBriefcaseMedical,
     FaEdit,
     FaTrash,
 } from "react-icons/fa";
+import { BsCapsulePill } from "react-icons/bs";
+import type { Insumo, Laboratorio } from "../../interfaces/interfaces";
+import Modal from "../Modal";
 
-// A interface dos insumos que serão usados para aplicação do sorinho
-interface Insumo {
-    id: number; // Define um identificador único para cada insumo
-    nome: string; // Define o nome do insumo (Vitamina C 500mg/5ml)
-    laboratorioCnpj: string, // Define o CNPJ do laboratório associado ao insumo, permitindo a vinculação entre os insumos e os laboratórios cadastrados
-    unidade: 'ml' | 'mg' | 'un'; // Define como ml ou mg ou un(ampolas e frasco-ampola) as unidades de medidas permitidas
-    quantidade: number; // Define a quantidade disponível do insumo
-}
 
-interface Laboratorio {
-    cnpj: string; // Define o CNPJ do laboratório
-    nome: string; // Define o nome do laboratório
-}
 
 const Estoque = () => {
     const data = localStorage.getItem('estoque'); // Tenta recuperar os dados do estoque do localStorage, se existirem, para manter a persistência dos dados entre as sessões do navegador
@@ -35,6 +28,9 @@ const Estoque = () => {
     const gerarID = () => Math.round(Math.random() * 1000); //Gera um número aleatório x1000 para ser o ID do insumo
     const [nome, setNome] = useState(''); //Define as variáveis com estado tipado 
 
+    const [termoBusca, setTermoBusca] = useState(''); // Estado para armazenar o nome do insumo digitado pelo usuário para busca, inicializando como string vazia
+
+    const [modalAberto, setModalAberto] = useState(false); // Estado para controlar a abertura do modal de cadastro/edição de insumos, inicializando como fechado (false)
 
     //Força o tipo para aceitar apenas strings vazias no incício, mas exigindo a tipagem correta depois
     const [unidade, setUnidade] = useState<'' | 'ml' | 'mg' | 'un'>('');
@@ -43,21 +39,28 @@ const Estoque = () => {
     // Estado para armazenar o ID do insumo que está sendo editado, ou null se nenhum insumo estiver sendo editado
     const [editandoId, setEditandoId] = useState<number | null>(null);
 
-    const [termoBusca, setTermoBusca] = useState(''); // Estado para armazenar o nome do insumo digitado pelo usuário para busca, inicializando como string vazia
+    // Estado para armazenar o título do modal, que pode ser "Cadastrar Insumo" ou "Editar Insumo" dependendo da ação do usuário
+    const abrirCadastrar = () => {
+        setEditandoId(null); // Limpa o ID de edição para garantir que o modal seja aberto para cadastro, não para edição
+        setModalAberto(true); // Abre o modal para cadastro
+    }
+
+    const abrirEditar = (idDoItem: Insumo) => {
+        setEditandoId(idDoItem.id); // Define o ID do insumo que está sendo editado para preencher os campos do modal com os dados do insumo selecionado
+        setModalAberto(true); // Abre o modal para edição
+    }
+
+    const fecharModal = () => setModalAberto(false); // Função para fechar o modal, definindo o estado como false
 
     // Função para salvar um novo insumo, validando os campos e atualizando o estado e o localStorage
-    function salvarInsumo() {
-        if (!nome || !unidade || !quantidade) {
-            alert('Informe o nome, unidade e a quantidade!');
-            return;
-        }
+    function salvarInsumo(dadosModal: Omit<Insumo, 'id'>) {
 
         const transacao: Insumo = {
             id: editandoId !== null ? editandoId : gerarID(), // Se estiver editando, mantém o mesmo ID, senão gera um novo
-            nome: nome,
-            laboratorioCnpj: laboratorio,
-            unidade: unidade,
-            quantidade: Number(quantidade), // Garantia de ser número
+            nome: dadosModal.nome,
+            laboratorioCnpj: dadosModal.laboratorioCnpj,
+            unidade: dadosModal.unidade,
+            quantidade: dadosModal.quantidade,
         };
 
         let novoArrayEstoque;
@@ -72,8 +75,10 @@ const Estoque = () => {
         localStorage.setItem('estoque', JSON.stringify(novoArrayEstoque));
 
         // Reset
-        cancelarEdicao(); // Limpa os campos e o ID de edição após salvar
+        fecharModal(); // Limpa os campos e o ID de edição após salvar
     }
+
+    const insumoEditado = estoque.find(item => item.id === editandoId) || null; // Encontra o insumo que está sendo editado com base no ID, ou retorna null se nenhum insumo estiver sendo editado
 
     // Função para a edição de um insumo, preenchendo os campos com os dados do insumo selecionado e definindo o ID do insumo que está sendo editado
     function editarInsumo(item: Insumo) {
@@ -114,38 +119,12 @@ const Estoque = () => {
 
             <S.ConteinerBusca>
                 <S.InputBusca placeholder="Digite o nome do item" value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)} />
+                <S.CaixaBotaoAcoes>
+                    <button title="Adicionar Insumo" onClick={abrirCadastrar}><FaBriefcaseMedical /></button>
+                    <button title="Suspender Insumo"><BsCapsulePill /></button>
+                </S.CaixaBotaoAcoes>
             </S.ConteinerBusca>
-            {/** 
-            <div>
-                <h3>Adicionar novo insumo:</h3>
-                <label>Nome:</label>
-                <input name="nome" value={nome} onChange={e => setNome(e.target.value)} />
-                <label>Laboratório:</label>
-                <select value={laboratorio} onChange={e => setLaboratorio(e.target.value)}>
-                    <option value='' disabled> Selecione...</option>
-                    {listaLaboratorios.map((lab) => (
-                        <option key={lab.cnpj} value={lab.cnpj}>{lab.nome}</option>
-                    ))}
-                </select>
-                <label>Unidade:</label>
-                <select value={unidade} onChange={e => setUnidade(e.target.value as 'ml' | 'mg' | 'un')}>
-                    <option value='' disabled> Selecione...</option>
-                    <option value='un'> Unidade (un)</option>
-                    <option value='ml'> Mililitro (ml)</option>
-                    <option value='mg'> Miligrama (mg)</option>
-                </select>
-                <label>Quantidade:</label>
-                <input type="number" value={quantidade} onChange={e => setQuantidade(e.target.value === '' ? '' : Number(e.target.value))} />
-                {editandoId === null ? (
-                    <button onClick={salvarInsumo}>Adicionar</button>
-                ) : (
-                    <>
-                        <button onClick={salvarInsumo}>Salvar</button>
-                        <button onClick={cancelarEdicao}>Cancelar</button>
-                    </>
-                )}
-            </div>
-            */}
+
 
             {/** Exibe os insumos filtrados ou não */}
             {insumosFiltrados.length === 0 ? (
@@ -158,24 +137,34 @@ const Estoque = () => {
 
                         return (
                             <S.ItemListas key={item.id}>
-                                <S.CaixaInfo>
-                                    <strong>{item.nome}</strong> <span>{item.quantidade}{item.unidade}</span> {nomeLab}
-                                </S.CaixaInfo>
+
+                                <span className="nome-item">{item.nome}</span>
+                                <span className="quantidade-item">{item.quantidade}{item.unidade}</span>
+                                <span className="laboratorio-item">{nomeLab}</span>
 
                                 <S.CaixaBotoes>
                                     {/** Botão para editar o item do estoque, preenchendo os campos com os dados do item selecionado e definindo o ID do item que está sendo editado */}
-                                    <S.BotaoLista onClick={() => editarInsumo(item)}><FaEdit /></S.BotaoLista>
+                                    <S.BotaoLista title="Editar Insumo" onClick={() => abrirEditar(item)}><FaEdit /></S.BotaoLista>
+
 
                                     {/** Botão para remover o item do estoque, atualizando o estado e o localStorage */}
-                                    <S.BotaoLista onClick={() => deletarInsumo(item)}><FaTrash /></S.BotaoLista>
+                                    <S.BotaoLista title="Remover Insumo" onClick={() => deletarInsumo(item)}><FaTrash /></S.BotaoLista>
                                 </S.CaixaBotoes>
                             </S.ItemListas>
                         )
                     })}
                 </S.ContainerListas>
             )}
+            <Modal
+                isOpen={modalAberto}
+                onFechar={fecharModal}
+                titulo={editandoId === null ? "Cadastrar Insumo" : "Editar Insumo"}
+                dadosInsumo={insumoEditado}
+                listaLaboratorios={listaLaboratorios}
+                onSalvar={salvarInsumo}
+            />
         </S.Container>
-    )
+    );
 }
 
 export default Estoque;

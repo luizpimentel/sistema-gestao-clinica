@@ -11,7 +11,7 @@ export const Container = styled.div`
 
 export const Titulo = styled.h1`
     margin-top: 0px;
-    padding: 10px 20px;
+    padding: 10px 30px;
     background-color: #F2C94C;
     font-family: var(--font-principal);
     color: #FFF;
@@ -19,6 +19,8 @@ export const Titulo = styled.h1`
 `;
 
 export const ConteinerBusca = styled.div`
+    display: flex;
+    align-items: center;
     margin: 0;
     padding:0;
 `;
@@ -38,6 +40,7 @@ export const InputBusca = styled.input`
     cursor: pointer;
     text-transform: uppercase;
     
+    
     &:hover {
         border-color: #999; 
         border-width: 3px;   
@@ -56,6 +59,36 @@ export const InputBusca = styled.input`
     }
 `;
 
+export const CaixaBotaoAcoes = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #EFE3CA;
+
+    & button {
+        background-color: #EFE3CA;
+        border: none;
+        cursor: pointer;
+        color: #534a4a;
+        font-size: 42px;
+        transition: color 0.3s ease;
+        padding: 0 20px;
+
+
+        &:hover {
+            color: var(--cor-principal);
+            background-color: #F2C94C;
+        }
+    }
+`;
+
+export const ContainerForm = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+
+
 export const ContainerListas = styled.ul`
     list-style: none;
     padding: 0;
@@ -63,32 +96,43 @@ export const ContainerListas = styled.ul`
 `;
 
 export const ItemListas = styled.li`
-    display: flex;
-    justify-content: space-around;
+    display: grid;  
+
+    /* 2. DEFINE O TAMANHO DAS COLUNAS: 
+        - 3fr (3 frações): O Nome ganha o maior espaço
+        - 1fr (1 fração): A Quantidade ganha um espaço menor
+        - 2fr (2 frações): O Laboratório fica com um espaço médio
+        - auto: A caixa dos botões pega só o espaço necessário para os ícones
+    */
+    grid-template-columns: 3fr 1fr 2fr 0.5fr;
+    
     align-items: center;
-    width: 100%;
-    padding: 10px;
+    gap: 20px;
+    margin: 10px 0;
+    padding: 15px 20px;
     border-radius: 5px;
+    border-bottom: 1px solid #ccc;
     background-color: #FFF4E1;
     font-family: 'Trebuchet MS', sans-serif;
     text-transform: uppercase;
     color: #534a4a;
-`;
 
-export const CaixaInfo = styled.div`
-    display: flex;
-    width: 90%;
-    justify-content: space-around;
-        
-    strong {
-        width: 30%;    
-        font-size: 18px;
+    .nome-item {
+        padding-left: 10px;
+    }
+
+    .quantidade-item {
+        font-weight: bold;
         text-align: left;
+    }
+
+    .laboratorio-item {
+        font-style: italic;
+        text-align: center;
     }
 `;
 
 export const CaixaBotoes = styled.div`
-    width: 15%;
     display: flex;
     gap: 20px;
 `;

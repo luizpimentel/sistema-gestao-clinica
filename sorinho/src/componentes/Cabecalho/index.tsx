@@ -8,7 +8,7 @@ const Cabecalho = () => {
 
     return (
         <S.Container>
-            <h1><span><GiMedicalDrip /></span>Sorinho</h1>
+            <h1><span><GiMedicalDrip /></span>PróSoro</h1>
         </S.Container>
     );
 };
