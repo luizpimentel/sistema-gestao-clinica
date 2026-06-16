@@ -13,6 +13,7 @@ const GlobalContainer = createGlobalStyle`
     :root {
         --font-principal: 'Dela Gothic One', sans-serif;
         --cor-principal: #170C79;
+        --cor-secundaria: #F2C94C;
     }
 `;
 

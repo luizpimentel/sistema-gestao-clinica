@@ -1,7 +1,7 @@
 import React, { useEffect, useState, type FormEvent } from 'react';
 import * as S from './estilos';
 import { IoCloseCircle } from 'react-icons/io5';
-import type { Insumo, Laboratorio, ModalProps } from '../../interfaces/interfaces';
+import type { ModalProps } from '../../interfaces/interfaces';
 
 
 
@@ -14,24 +14,26 @@ const Modal = ({ isOpen, onFechar, titulo, dadosInsumo, listaLaboratorios, onSal
 
 
     useEffect(() => {
-        if (dadosInsumo !== null) {
-            setNome(dadosInsumo.nome); // Preenche o campo de nome com os dados do insumo para edição
-            setQuantidade(dadosInsumo.quantidade); // Preenche o campo de quantidade com os dados do insumo para edição
-            setUnidade(dadosInsumo.unidade); // Preenche o campo de unidade com os dados do insumo para edição
-            setLaboratorio(dadosInsumo.laboratorioCnpj); // Preenche o campo de laboratório com os dados do insumo para edição
-        } else {
-            setNome(''); // Limpa o campo de nome para cadastro
-            setQuantidade(''); // Limpa o campo de quantidade para cadastro
-            setUnidade(''); // Limpa o campo de unidade para cadastro
-            setLaboratorio(''); // Limpa o campo de laboratório para cadastro
+        if (isOpen) {
+            if (dadosInsumo !== null) {
+                setNome(dadosInsumo.nome); // Preenche o campo de nome com os dados do insumo para edição
+                setQuantidade(dadosInsumo.quantidade); // Preenche o campo de quantidade com os dados do insumo para edição
+                setUnidade(dadosInsumo.unidade); // Preenche o campo de unidade com os dados do insumo para edição
+                setLaboratorio(dadosInsumo.laboratorioCnpj); // Preenche o campo de laboratório com os dados do insumo para edição
+            } else {
+                setNome(''); // Limpa o campo de nome para cadastro
+                setQuantidade(''); // Limpa o campo de quantidade para cadastro
+                setUnidade(''); // Limpa o campo de unidade para cadastro
+                setLaboratorio(''); // Limpa o campo de laboratório para cadastro
+            }
         }
-    }, [dadosInsumo]); // O useEffect é executado sempre que os dados do insumo mudarem, preenchendo os campos para edição ou limpando para cadastro)
-
+    }, [dadosInsumo, isOpen]); // Efeito colateral para preencher os campos do modal com os dados do insumo quando o modal for aberto para edição, ou limpar os campos quando for aberto para cadastro
+    
     const salvarInsumo = (evento: FormEvent<HTMLFormElement>) => {
         evento.preventDefault(); // Impede o reload da página ao submeter o formulário do modal
 
-        if (!nome || !unidade || !quantidade) {
-            alert('Informe o nome, unidade e a quantidade!');
+        if (!nome || !unidade || !quantidade || !laboratorio) {
+            alert('Informe o nome, unidade, quantidade e o laboratório!');
             return;
         }
 
@@ -82,8 +84,11 @@ const Modal = ({ isOpen, onFechar, titulo, dadosInsumo, listaLaboratorios, onSal
                         </select>
                     </S.CampoContainer>
 
-                    <button type="submit">Salvar</button>
+                    <S.CampoContainer>
 
+                        <button type="submit">Salvar</button>
+
+                    </S.CampoContainer>
                 </S.Formulario>
 
 

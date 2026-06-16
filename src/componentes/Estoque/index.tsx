@@ -11,7 +11,6 @@ import type { Insumo, Laboratorio } from "../../interfaces/interfaces";
 import Modal from "../Modal";
 
 
-
 const Estoque = () => {
     const data = localStorage.getItem('estoque'); // Tenta recuperar os dados do estoque do localStorage, se existirem, para manter a persistência dos dados entre as sessões do navegador
     const dataLab = localStorage.getItem('laboratorios'); // o mesmo para os laboratórios, permitindo que os laboratórios cadastrados também sejam persistidos entre as sessões do navegador
@@ -22,19 +21,13 @@ const Estoque = () => {
         { cnpj: '00.000.000/0001-00', nome: 'Laboratório A' },
         { cnpj: '11.111.111/0001-11', nome: 'Laboratório B' },
     ]); // Define o estado dos laboratórios, inicializando com os dados do localStorage ou um array vazio se não houver dados
-    const [laboratorio, setLaboratorio] = useState(''); // Define o estado do laboratório selecionado para o insumo, inicializando como string vazia
 
     // Hook dos dados dos insumos
     const gerarID = () => Math.round(Math.random() * 1000); //Gera um número aleatório x1000 para ser o ID do insumo
-    const [nome, setNome] = useState(''); //Define as variáveis com estado tipado 
 
     const [termoBusca, setTermoBusca] = useState(''); // Estado para armazenar o nome do insumo digitado pelo usuário para busca, inicializando como string vazia
 
     const [modalAberto, setModalAberto] = useState(false); // Estado para controlar a abertura do modal de cadastro/edição de insumos, inicializando como fechado (false)
-
-    //Força o tipo para aceitar apenas strings vazias no incício, mas exigindo a tipagem correta depois
-    const [unidade, setUnidade] = useState<'' | 'ml' | 'mg' | 'un'>('');
-    const [quantidade, setQuantidade] = useState<number | ''>('');
 
     // Estado para armazenar o ID do insumo que está sendo editado, ou null se nenhum insumo estiver sendo editado
     const [editandoId, setEditandoId] = useState<number | null>(null);
@@ -75,29 +68,14 @@ const Estoque = () => {
         localStorage.setItem('estoque', JSON.stringify(novoArrayEstoque));
 
         // Reset
-        fecharModal(); // Limpa os campos e o ID de edição após salvar
+        fecharModal(); // Fecha o modal após salvar
+
     }
 
     const insumoEditado = estoque.find(item => item.id === editandoId) || null; // Encontra o insumo que está sendo editado com base no ID, ou retorna null se nenhum insumo estiver sendo editado
 
-    // Função para a edição de um insumo, preenchendo os campos com os dados do insumo selecionado e definindo o ID do insumo que está sendo editado
-    function editarInsumo(item: Insumo) {
-        setEditandoId(item.id); // Define o ID do insumo que está sendo editado
-        setNome(item.nome); // Preenche os inputs com os dados do insumo para editar
-        setUnidade(item.unidade);
-        setQuantidade(item.quantidade);
-    }
-
-    // Função para cancelar a edição, limpando os campos e o ID do insumo que está sendo editado
-    function cancelarEdicao() {
-        setEditandoId(null); // Limpa o ID do insumo que está sendo editado
-        setNome(''); // Limpa os inputs
-        setUnidade('');
-        setQuantidade('');
-    }
-
     // Função para deletar um insumo, removendo-o do estado e do localStorage
-    function deletarInsumo(item: Insumo) {
+    const deletarInsumo = (item: Insumo) => {
         const novoArray = estoque.filter(i => i.id !== item.id);
         setEstoque(novoArray);
         localStorage.setItem('estoque', JSON.stringify(novoArray));
@@ -109,8 +87,6 @@ const Estoque = () => {
         const busca = termoBusca.toLowerCase();
         return nomedoItem.includes(busca);
     })
-
-
 
 
     return (

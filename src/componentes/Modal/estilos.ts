@@ -74,10 +74,65 @@ export const CampoContainer = styled.div`
     font-family: var(--font-principal);
 
     label {
-        width: 110px;
+        width: 150px;
+        font-size: 16px;
+        text-transform: uppercase;
     }
 
     input, select {
         flex: 1;
+    }
+
+    input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+            outline: none;
+            border-color: var(--cor-principal);
+        }
+    }
+    
+    select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+        font-family: var(--font-principal);
+
+        &:focus {
+            outline: none;
+            border-color: var(--cor-principal);
+        }
+        
+        &:hover {
+            border-color: var(--cor-principal);
+        }
+
+        option {
+            font-size: 16px;
+        }
+    }
+
+    button {
+        width: 100%;
+        padding: 10px 20px;
+        background-color: var(--cor-principal);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-family: var(--font-principal);
+        font-size: 16px;
+        text-transform: uppercase;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: #2616b1;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
     }
 `;
