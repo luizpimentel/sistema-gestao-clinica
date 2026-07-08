@@ -8,7 +8,8 @@ import {
 } from "react-icons/fa";
 import { BsCapsulePill } from "react-icons/bs";
 import type { Insumo, Laboratorio } from "../../interfaces/interfaces";
-import Modal from "../Modal";
+import ModalCadEdit from "../ModalCadEdit";
+import ModalSuspender from "../ModalSuspender";
 
 
 const Estoque = () => {
@@ -28,6 +29,7 @@ const Estoque = () => {
     const [termoBusca, setTermoBusca] = useState(''); // Estado para armazenar o nome do insumo digitado pelo usuário para busca, inicializando como string vazia
 
     const [modalAberto, setModalAberto] = useState(false); // Estado para controlar a abertura do modal de cadastro/edição de insumos, inicializando como fechado (false)
+    const [modalSuspenderAberto, setModalSuspenderAberto] = useState(false); // Estado para controlar a abertura do modal de suspensão de insumos, inicializando como fechado (false)
 
     // Estado para armazenar o ID do insumo que está sendo editado, ou null se nenhum insumo estiver sendo editado
     const [editandoId, setEditandoId] = useState<number | null>(null);
@@ -43,6 +45,10 @@ const Estoque = () => {
         setModalAberto(true); // Abre o modal para edição
     }
 
+    const abrirSuspender = () => {
+        setModalSuspenderAberto(true); // Abre o modal para suspensão
+    }
+
     const fecharModal = () => setModalAberto(false); // Função para fechar o modal, definindo o estado como false
 
     // Função para salvar um novo insumo, validando os campos e atualizando o estado e o localStorage
@@ -54,6 +60,7 @@ const Estoque = () => {
             laboratorioCnpj: dadosModal.laboratorioCnpj,
             unidade: dadosModal.unidade,
             quantidade: dadosModal.quantidade,
+            disponivel: true, // Define o insumo como disponível por padrão ao ser cadastrado ou editado
         };
 
         let novoArrayEstoque;
@@ -97,7 +104,7 @@ const Estoque = () => {
                 <S.InputBusca placeholder="Digite o nome do item" value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)} />
                 <S.CaixaBotaoAcoes>
                     <button title="Adicionar Insumo" onClick={abrirCadastrar}><FaBriefcaseMedical /></button>
-                    <button title="Suspender Insumo"><BsCapsulePill /></button>
+                    <button title="Suspender Insumo" onClick={abrirSuspender}><BsCapsulePill /></button>
                 </S.CaixaBotaoAcoes>
             </S.ConteinerBusca>
 
@@ -131,7 +138,8 @@ const Estoque = () => {
                     })}
                 </S.ContainerListas>
             )}
-            <Modal
+
+            <ModalCadEdit
                 isOpen={modalAberto}
                 onFechar={fecharModal}
                 titulo={editandoId === null ? "Cadastrar Insumo" : "Editar Insumo"}
@@ -139,6 +147,15 @@ const Estoque = () => {
                 listaLaboratorios={listaLaboratorios}
                 onSalvar={salvarInsumo}
             />
+
+            <ModalSuspender
+                isOpen={modalSuspenderAberto}
+                onFechar={() => setModalSuspenderAberto(false)}
+                titulo="Suspender Insumos" 
+                onSalvar={function (insumoPronto: Omit<Insumo, "id">): void {
+                    throw new Error("Function not implemented.");
+                } }            />
+            
         </S.Container>
     );
 }

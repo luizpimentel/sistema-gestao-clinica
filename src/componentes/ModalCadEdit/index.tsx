@@ -5,13 +5,12 @@ import type { ModalProps } from '../../interfaces/interfaces';
 
 
 
-const Modal = ({ isOpen, onFechar, titulo, dadosInsumo, listaLaboratorios, onSalvar }: ModalProps) => {
+const ModalCadEdit = ({ isOpen, onFechar, titulo, dadosInsumo, listaLaboratorios, onSalvar }: ModalProps) => {
 
     const [nome, setNome] = useState(''); // Estado para armazenar o nome do insumo
     const [quantidade, setQuantidade] = useState<number | ''>('');
     const [unidade, setUnidade] = useState(''); // Estado para armazenar a unidade do insumo
     const [laboratorio, setLaboratorio] = useState(''); // Estado para armazenar o laboratório do insumo
-
 
     useEffect(() => {
         if (isOpen) {
@@ -43,6 +42,7 @@ const Modal = ({ isOpen, onFechar, titulo, dadosInsumo, listaLaboratorios, onSal
             unidade: unidade as 'ml' | 'mg' | 'un',
             quantidade: Number(quantidade),
             laboratorioCnpj: laboratorio,
+            disponivel: true, // Define o insumo como disponível por padrão ao ser cadastrado ou editado
         });
     }
 
@@ -97,4 +97,4 @@ const Modal = ({ isOpen, onFechar, titulo, dadosInsumo, listaLaboratorios, onSal
     )
 }
 
-export default Modal;
+export default ModalCadEdit;

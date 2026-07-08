@@ -1,8 +1,5 @@
 import styled from "styled-components";
-
-interface FundoProps {
-    $isOpen: boolean;
-}
+import type { FundoProps } from "../../interfaces/interfaces";
 
 export const Fundo = styled.div<FundoProps>`
     position: fixed;
