@@ -27,9 +27,10 @@ const GlobalContainer = createGlobalStyle`
         --font-principal: 'Dela Gothic One', sans-serif;
         --font-secundaria: 'CovesLight', sans-serif;
         --font-terciaria: 'CovesBold', sans-serif;
-        --cor-principal: #170C79;
-        --cor-terciaria: #4635d8;
-        --cor-secundaria: #F2C94C;
+        --cor-principal: #778873;
+        --cor-secundaria: #A1BC98;
+        --cor-terciaria: #DCCFC0;
+        --cor-quaternaria: #FDF6ED;
     }
 `;
 

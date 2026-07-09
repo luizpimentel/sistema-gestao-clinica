@@ -1,10 +1,10 @@
-import React, { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './estilos';
 import { IoCloseCircle, IoArrowUp, IoArrowDown } from 'react-icons/io5';
 import type { ModalSuspenderProps, Insumo } from '../../interfaces/interfaces';
 
 
-const ModalSuspender = ({ isOpen, onFechar, titulo }: ModalSuspenderProps) => {
+const ModalSuspender = ({ isOpen, onFechar, titulo, listaLaboratorios, }: ModalSuspenderProps) => {
 
 
     const [listaDisponiveis, setListaDisponiveis] = useState<Insumo[]>([]); // Estado para armazenar a lista de insumos disponíveis
@@ -77,6 +77,12 @@ const ModalSuspender = ({ isOpen, onFechar, titulo }: ModalSuspenderProps) => {
         onFechar(); // Fecha o modal após salvar as alterações
     };
 
+    const [termoBusca, setTermoBusca] = useState(''); // Estado para armazenar o termo de busca digitado pelo usuário
+    const listasFiltradas = { //    Cria um objeto com as listas filtradas de disponíveis e suspensos com base no termo de busca
+        disponiveis: listaDisponiveis.filter(item => item.nome.toLowerCase().includes(termoBusca.toLowerCase())).sort((a, b) => a.nome.localeCompare(b.nome)), // Filtra a lista de disponíveis com base no termo de busca
+        suspensos: listaSuspensos.filter(item => item.nome.toLowerCase().includes(termoBusca.toLowerCase())).sort((a, b) => a.nome.localeCompare(b.nome)), // Filtra a lista de suspensos com base no termo de busca
+    };
+
     if (!isOpen) return null; // Se o modal não estiver aberto, não renderiza nada
 
     return (
@@ -95,7 +101,10 @@ const ModalSuspender = ({ isOpen, onFechar, titulo }: ModalSuspenderProps) => {
                         <S.DescricaoContainerJustificativa>Certifique-se de fornecer uma justificativa clara e objetiva ao suspender ou reativar um insumo, garantindo que as decisões sejam baseadas em critérios clínicos e regulatórios adequados.</S.DescricaoContainerJustificativa>
                         <S.TituloContainerJustificativa>Justificativa:</S.TituloContainerJustificativa>
                         <S.Data>Data: {new Date().toLocaleDateString()}</S.Data>
-                        <S.TextareaJustificativa placeholder="Digite a justificativa para suspender ou reativar o insumo..." />
+                        <S.TextareaJustificativa placeholder="Digite a justificativa para suspender ou reativar o(s) insumo(s) alterado(s). 
+    Exemplos de justificativas:
+    - Suspensão do insumo X devido a complexidade com entregas do fornecedor.
+    - Reativação do insumo Y após análise de mercado e aumento da demanda." value={justificativa} onChange={(e) => setJustificativa(e.target.value)} />
 
                         <S.ContainerBotoes>
                             <S.BotaoSalvar onClick={salvarAlteracoes}>Salvar</S.BotaoSalvar>
@@ -104,13 +113,19 @@ const ModalSuspender = ({ isOpen, onFechar, titulo }: ModalSuspenderProps) => {
 
                     <S.ContainerTransferencia>
                         <S.ColunaLista>
+                            <S.BuscaLista placeholder="Digite o nome do insumo..." value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)} />
                             <S.TituloLista>Disponíveis</S.TituloLista>
                             <S.ListaBox>
-                                {listaDisponiveis.map(item => (
-                                    <S.ItemLista key={item.id} onClick={() => selecionarItem(item.id, 'disponivel')} $selecionado={selecionadoId === item.id}>
-                                        <span className="nome-item">{item.nome}</span>
-                                    </S.ItemLista>
-                                ))}
+                                {listasFiltradas.disponiveis.map(item => {
+                                    const labSelecionado = listaLaboratorios.find((lab) => lab.cnpj === item.laboratorioCnpj);
+                                    const nomeLab = labSelecionado ? labSelecionado.nome : 'Laboratório não encontrado';
+
+                                    return (
+                                        <S.ItemLista key={item.id} onClick={() => selecionarItem(item.id, 'disponivel')} $selecionado={selecionadoId === item.id}>
+                                            <span className="nome-item">{item.nome} | {nomeLab} </span>
+                                        </S.ItemLista>
+                                    )
+                                })}
                             </S.ListaBox>
                         </S.ColunaLista>
 
@@ -121,11 +136,16 @@ const ModalSuspender = ({ isOpen, onFechar, titulo }: ModalSuspenderProps) => {
 
                         <S.ColunaLista>
                             <S.ListaBox>
-                                {listaSuspensos.map(item => (
-                                    <S.ItemLista key={item.id} onClick={() => selecionarItem(item.id, 'suspenso')} $selecionado={selecionadoId === item.id}>
-                                        <span className="nome-item">{item.nome}</span>
-                                    </S.ItemLista>
-                                ))}
+                                {listasFiltradas.suspensos.map(item => {
+                                    const labSelecionado = listaLaboratorios.find((lab) => lab.cnpj === item.laboratorioCnpj);
+                                    const nomeLab = labSelecionado ? labSelecionado.nome : 'Laboratório não encontrado';
+
+                                    return (
+                                        <S.ItemLista key={item.id} onClick={() => selecionarItem(item.id, 'suspenso')} $selecionado={selecionadoId === item.id}>
+                                            <span className="nome-item">{item.nome} | {nomeLab} </span>
+                                        </S.ItemLista>
+                                    )
+                                })}
                             </S.ListaBox>
                             <S.TituloLista>Suspensos</S.TituloLista>
                         </S.ColunaLista>

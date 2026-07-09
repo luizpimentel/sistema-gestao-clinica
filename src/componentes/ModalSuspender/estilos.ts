@@ -21,11 +21,11 @@ export const Fundo = styled.div<FundoProps>`
 `;
 
 export const ContainerModal = styled.div<FundoProps>`
-    background-color: #fff;
+    background-color: #f9f9f9;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    min-width: 400px;
+    min-width: 1200px;
     min-height: 250px;
     position: relative;
 
@@ -93,11 +93,17 @@ export const Data = styled.p`
 
 export const TextareaJustificativa = styled.textarea`
     width: 100%;
-    height: 100px;
+    height: 150px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    resize: vertical;
+    resize: none;
+    font-family: var(--font-secundaria);
+
+    &:focus {
+        outline: none;
+        border-color: var(--cor-principal);
+    }   
 `;
 
 // Estilos para container de listas
@@ -107,8 +113,7 @@ export const ContainerTransferencia = styled.div`
     align-items: center;
     justify-content: space-between;
     gap: 5px;
-    width: 30%;
-    min-width: 20%;
+    width: 35%;
 `;
 
 export const ColunaLista = styled.div`
@@ -116,6 +121,21 @@ export const ColunaLista = styled.div`
     flex-direction: column;
     flex: 1;
     width: 100%;
+`;
+
+export const BuscaLista = styled.input`
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: var(--font-terciaria);
+
+    &:focus {
+        outline: none;
+        border-color: var(--cor-principal);
+    }
 `;
 
 export const TituloLista = styled.h4`
@@ -128,11 +148,10 @@ export const TituloLista = styled.h4`
 `;
 
 export const ListaBox = styled.div`
-    border: 1px solid #ccc;
+    border: 2px solid var(--cor-principal);
     border-radius: 8px;
     height: 200px;
     overflow-y: auto;
-    padding: 8px;
     background-color: #f9f9f9;
 `;
 
@@ -162,29 +181,30 @@ export const BotaoSeta = styled.button`
     }
 
     &:hover:not(:disabled) {
-        background-color: #2a2a8c;
+        background-color: var(--cor-terciaria);
     }
 `;
 
 // Estilo para cada item da lista, com destaque se selecionado
 export const ItemLista = styled.div<{ $selecionado?: boolean }>`
+    font-family: var(--font-terciaria);
     padding: 10px;
-    margin-bottom: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border-bottom: 2px solid var(--cor-principal);
     cursor: pointer;
-    background-color: ${props => props.$selecionado ? '#e0e7ff' : 'white'}; // Muda a cor se selecionado
-    border-color: ${props => props.$selecionado ? '#1a1a5c' : '#ddd'};
+    background-color: ${props => props.$selecionado ? 'var(--cor-principal)' : 'white'}; // Muda a cor se selecionado
+    border-color: ${props => props.$selecionado ? 'var(--cor-principal)' : 'var(--cor-principal)'}; // Muda a cor da borda se selecionado
+    color: ${props => props.$selecionado ? 'white' : 'black'}; // Muda a cor do texto se selecionado
     transition: background-color 0.2s;
 
     &:hover {
-        background-color: ${props => props.$selecionado ? '#e0e7ff' : '#f1f1f1'};
+        background-color: ${props => props.$selecionado ? 'var(--cor-principal)' : 'var(--cor-terciaria)'}; // Muda a cor ao passar o mouse, mantendo a cor se já estiver selecionado
     }
 `;
 
 // Estilo para o botão de salvar
 export const ContainerBotoes = styled.div`
     display: flex;
+    width: 100%;
     justify-content: flex-end;
     margin-top: 20px;
 `;
@@ -201,6 +221,6 @@ export const BotaoSalvar = styled.button`
     transition: background-color 0.3s ease;
 
     &:hover {
-        background-color: #0f075c;
+        background-color: var(--cor-secundaria);
     }
 `;  

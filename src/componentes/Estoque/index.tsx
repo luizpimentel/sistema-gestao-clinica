@@ -151,10 +151,11 @@ const Estoque = () => {
             <ModalSuspender
                 isOpen={modalSuspenderAberto}
                 onFechar={() => setModalSuspenderAberto(false)}
-                titulo="Suspender Insumos" 
-                onSalvar={function (insumoPronto: Omit<Insumo, "id">): void {
-                    throw new Error("Function not implemented.");
-                } }            />
+                titulo="Suspender Insumos"
+                listaDisponiveis={estoque.filter(item => item.disponivel)}
+                listaSuspensos={estoque.filter(item => !item.disponivel)}
+                listaLaboratorios={listaLaboratorios}
+                />
             
         </S.Container>
     );

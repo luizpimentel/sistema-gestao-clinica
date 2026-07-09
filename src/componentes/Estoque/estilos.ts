@@ -23,10 +23,12 @@ export const ConteinerBusca = styled.div`
     align-items: center;
     margin: 0;
     padding:0;
+    max-height: 51.8px;
 `;
 
 export const InputBusca = styled.input`
     width: 100%;
+    height: 51.2px;
     text-align: center;
     padding: 13px;
     font-family: var(--font-principal);

@@ -29,7 +29,9 @@ export interface ModalSuspenderProps {
     isOpen: boolean; // Define se o modal está aberto ou fechado
     onFechar: () => void; // Função para fechar o modal
     titulo: string; // Título do modal
-    onSalvar: (insumoPronto: Omit<Insumo, 'id'>) => void; // Função para salvar o insumo, recebendo os dados do insumo sem o ID, que será gerado no componente de estoque
+    listaLaboratorios: Laboratorio[] //
+    listaDisponiveis: Insumo[]; // Lista de insumos disponíveis para preencher a lista de disponíveis no modal
+    listaSuspensos: Insumo[]; // Lista de insumos suspensos para preencher a lista de suspensos no modal
 }
 
 // A interface do fundo do modal, que define se o modal está aberto ou fechado
