@@ -1,5 +1,5 @@
-import { createContext, useEffect, useState } from "react";
-import type { Usuario, IAuthProvider, UContext } from '../../interfaces/interfaces'
+import { createContext, useEffect, useState, useCallback } from "react";
+import type { Usuario, IAuthProvider, UContext } from '@/interfaces'
 import {
     getUserLocalStorage,
     gerarTokenSessao,
@@ -18,7 +18,6 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
     useEffect(() => {
         inicializarUsuarios();
-
     }, [])
 
     async function autenticacao(email: string, senha: string) {
@@ -37,10 +36,54 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
         setUserLocalStorage(payload);
     }
 
-    function logout() {
+    // O useCallback garante que a função de logout não seja recriada a cada renderização
+    const logout = useCallback(() => {
         setUser(null);
         setUserLocalStorage(null);
-    }
+        console.log('Realizando logout...');
+    }, []);
+
+    // Lógica de inatividade (10 minutos)
+    useEffect(() => {
+        // Se não houver usuário logado, não precisa rastrear inatividade
+        if (!user) return;
+
+        let timerDeInatividade: ReturnType<typeof setTimeout>;
+        
+        const resetarTimer = () => {
+            clearTimeout(timerDeInatividade);
+
+            // Inicia o timer de 10 minutos (600.000 ms)
+            timerDeInatividade = setTimeout(() => {
+                console.log("Sessão encerrada por inatividade.");
+                logout();
+            }, 600000);
+        };
+
+        const eventosDeAtividade = [
+            'mousemove',
+            'mousedown',
+            'keydown',
+            'scroll',
+            'touchstart'
+        ];
+
+        // Adiciona os ouvintes de evento
+        eventosDeAtividade.forEach((evento) => {
+            window.addEventListener(evento, resetarTimer);
+        });
+
+        // Inicia o timer pela primeira vez
+        resetarTimer();
+
+        // Função de limpeza quando o componente desmontar ou o usuário deslogar
+        return () => {
+            clearTimeout(timerDeInatividade);
+            eventosDeAtividade.forEach((evento) => {
+                window.removeEventListener(evento, resetarTimer);
+            });
+        };
+    }, [user, logout]);
 
     const value: UContext = {
         email: user?.email,

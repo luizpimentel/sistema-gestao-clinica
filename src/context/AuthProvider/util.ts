@@ -1,4 +1,4 @@
-import type { Usuario, UsuarioCredenciais } from "../../interfaces/interfaces";
+import type { Usuario, UsuarioCredenciais } from "@/interfaces";
 
 const CHAVE_USUARIOS = 'usuarios';
 const CHAVE_SESSAO = 'u';
