@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Menu = styled.nav`
     position: relative;
-    background-color: #170C79;
+    background-color: var(--cor-marrom-acinzentado);
     padding: 10px;
     display: flex;
     justify-content: space-around;

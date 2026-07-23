@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
     position: relative;
-    background-color: #FBF5DD;
+    background-color: var(--cor-quaternaria);
     margin-top: 0px;
     padding: 0px;
     border-radius: 0 0 10px 10px;
@@ -12,7 +12,7 @@ export const Container = styled.div`
 export const Titulo = styled.h1`
     margin-top: 0px;
     padding: 10px 30px;
-    background-color: #F2C94C;
+    background-color: var(--cor-secundaria);
     font-family: var(--font-principal);
     color: #FFF;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
@@ -34,29 +34,28 @@ export const InputBusca = styled.input`
     font-family: var(--font-principal);
     font-size: 14px;
     color: #534a4a;
-    border: 1px solid #ccc;
-    background-color: #EFE3CA;
+    background-color: var(--cor-quaternaria);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     border: 3px transparent solid;
+    border-bottom: 3px solid var(--cor-secundaria);
     cursor: pointer;
     text-transform: uppercase;
     
     
     &:hover {
-        border-color: #999; 
+        border-color: var(--cor-principal); 
         border-width: 3px;   
         color: #333;
     }
 
     &:focus {
         outline: none;
-        border-color: #534a4a;
+        border-color: var(--cor-principal);
         color: #534a4a;
     }
     
     &::placeholder {
-        color: #534a4a
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     }
 `;
@@ -65,21 +64,21 @@ export const CaixaBotaoAcoes = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #EFE3CA;
+    background-color: var(--cor-secundaria);
 
     & button {
-        background-color: #EFE3CA;
+        background-color: var(--cor-secundaria);
         border: none;
         cursor: pointer;
-        color: #534a4a;
+        color: var(--cor-marrom-acinzentado);
         font-size: 42px;
         transition: color 0.3s ease;
         padding: 0 20px;
 
 
         &:hover {
-            color: var(--cor-principal);
-            background-color: #F2C94C;
+            color: var(--cor-quaternaria);
+            background-color: var(--cor-secundaria);
         }
     }
 `;
@@ -113,11 +112,10 @@ export const ItemListas = styled.li`
     margin: 10px 0;
     padding: 15px 20px;
     border-radius: 5px;
-    border-bottom: 1px solid #ccc;
-    background-color: #FFF4E1;
+    border-bottom: 1px solid var(--cor-marrom-acinzentado);
     font-family: 'Trebuchet MS', sans-serif;
     text-transform: uppercase;
-    color: #534a4a;
+    color: black;
 
     .nome-item {
         padding-left: 10px;

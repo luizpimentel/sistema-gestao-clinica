@@ -1,3 +1,32 @@
+import type { JSX } from "react";
+
+// Interface do usuário
+export interface Usuario{
+    email?: string;
+    token?: string;
+}
+
+// Contexto de autenticação(login) e logout do usuário
+export interface UContext extends Usuario{
+    autenticacao: (email: string, senha: string) => Promise<void>;
+    logout: () => void;
+}
+
+// Interface da rota que gerará os proximos elementos com base no login ter sido feito ou não
+export interface IAuthProvider {
+    children: JSX.Element;
+}
+
+// Interface para criar children
+export interface Children {
+    children: JSX.Element;
+}
+
+export interface UsuarioCredenciais {
+    email: string;
+    senha: string;
+}
+
 // A interface dos insumos que serão usados para aplicação do sorinho
 export interface Insumo {
     id: number; // Define um identificador único para cada insumo
@@ -32,6 +61,7 @@ export interface ModalSuspenderProps {
     listaLaboratorios: Laboratorio[] //
     listaDisponiveis: Insumo[]; // Lista de insumos disponíveis para preencher a lista de disponíveis no modal
     listaSuspensos: Insumo[]; // Lista de insumos suspensos para preencher a lista de suspensos no modal
+    onSalvar: (estoqueAtualizado: Insumo[]) => void; // Função para sincronizar o estoque após salvar
 }
 
 // A interface do fundo do modal, que define se o modal está aberto ou fechado

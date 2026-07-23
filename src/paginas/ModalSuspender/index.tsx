@@ -4,7 +4,7 @@ import { IoCloseCircle, IoArrowUp, IoArrowDown } from 'react-icons/io5';
 import type { ModalSuspenderProps, Insumo } from '../../interfaces/interfaces';
 
 
-const ModalSuspender = ({ isOpen, onFechar, titulo, listaLaboratorios, }: ModalSuspenderProps) => {
+const ModalSuspender = ({ isOpen, onFechar, titulo, listaLaboratorios, onSalvar }: ModalSuspenderProps) => {
 
 
     const [listaDisponiveis, setListaDisponiveis] = useState<Insumo[]>([]); // Estado para armazenar a lista de insumos disponíveis
@@ -74,6 +74,7 @@ const ModalSuspender = ({ isOpen, onFechar, titulo, listaLaboratorios, }: ModalS
         const estoqueAtualizado = [...listaDisponiveis, ...listaSuspensos];
 
         localStorage.setItem('estoque', JSON.stringify(estoqueAtualizado)); // Atualiza o localStorage com o estoque atualizado
+        onSalvar(estoqueAtualizado);
         onFechar(); // Fecha o modal após salvar as alterações
     };
 
@@ -122,7 +123,7 @@ const ModalSuspender = ({ isOpen, onFechar, titulo, listaLaboratorios, }: ModalS
 
                                     return (
                                         <S.ItemLista key={item.id} onClick={() => selecionarItem(item.id, 'disponivel')} $selecionado={selecionadoId === item.id}>
-                                            <span className="nome-item">{item.nome} | {nomeLab} </span>
+                                            <span className="nome-item">{item.nome} |{nomeLab} </span>
                                         </S.ItemLista>
                                     )
                                 })}
@@ -142,7 +143,7 @@ const ModalSuspender = ({ isOpen, onFechar, titulo, listaLaboratorios, }: ModalS
 
                                     return (
                                         <S.ItemLista key={item.id} onClick={() => selecionarItem(item.id, 'suspenso')} $selecionado={selecionadoId === item.id}>
-                                            <span className="nome-item">{item.nome} | {nomeLab} </span>
+                                            <span className="nome-item">{item.nome} |{nomeLab} </span>
                                         </S.ItemLista>
                                     )
                                 })}

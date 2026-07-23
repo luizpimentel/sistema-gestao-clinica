@@ -23,8 +23,10 @@ const Estoque = () => {
         { cnpj: '11.111.111/0001-11', nome: 'Laboratório B' },
     ]); // Define o estado dos laboratórios, inicializando com os dados do localStorage ou um array vazio se não houver dados
 
-    // Hook dos dados dos insumos
-    const gerarID = () => Math.round(Math.random() * 1000); //Gera um número aleatório x1000 para ser o ID do insumo
+    const gerarID = (itens: Insumo[]) => {
+        if (itens.length === 0) return 1;
+        return Math.max(...itens.map(item => item.id)) + 1;
+    };
 
     const [termoBusca, setTermoBusca] = useState(''); // Estado para armazenar o nome do insumo digitado pelo usuário para busca, inicializando como string vazia
 
@@ -55,7 +57,7 @@ const Estoque = () => {
     function salvarInsumo(dadosModal: Omit<Insumo, 'id'>) {
 
         const transacao: Insumo = {
-            id: editandoId !== null ? editandoId : gerarID(), // Se estiver editando, mantém o mesmo ID, senão gera um novo
+            id: editandoId !== null ? editandoId : gerarID(estoque), // Se estiver editando, mantém o mesmo ID, senão gera um novo
             nome: dadosModal.nome,
             laboratorioCnpj: dadosModal.laboratorioCnpj,
             unidade: dadosModal.unidade,
@@ -155,6 +157,7 @@ const Estoque = () => {
                 listaDisponiveis={estoque.filter(item => item.disponivel)}
                 listaSuspensos={estoque.filter(item => !item.disponivel)}
                 listaLaboratorios={listaLaboratorios}
+                onSalvar={setEstoque}
                 />
             
         </S.Container>
