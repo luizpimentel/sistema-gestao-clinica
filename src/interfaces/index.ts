@@ -2,13 +2,13 @@ import type { JSX } from "react";
 
 // Interface do usuário
 export interface Usuario{
-    email?: string;
+    usuario?: string;
     token?: string;
 }
 
 // Contexto de autenticação(login) e logout do usuário
 export interface UContext extends Usuario{
-    autenticacao: (email: string, senha: string) => Promise<void>;
+    autenticacao: (usuario: string, senha: string) => Promise<void>;
     logout: () => void;
 }
 
@@ -23,7 +23,7 @@ export interface Children {
 }
 
 export interface UsuarioCredenciais {
-    email: string;
+    usuario: string;
     senha: string;
 }
 

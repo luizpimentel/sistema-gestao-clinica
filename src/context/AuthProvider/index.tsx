@@ -20,15 +20,15 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
         inicializarUsuarios();
     }, [])
 
-    async function autenticacao(email: string, senha: string) {
-        const credenciaisValidas = validarCredenciais(email, senha);
+    async function autenticacao(usuario: string, senha: string) {
+        const credenciaisValidas = validarCredenciais(usuario, senha);
 
         if (!credenciaisValidas) {
             throw new Error('Credenciais inválidas');
         }
 
         const payload: Usuario = {
-            email: email.trim(),
+            usuario: usuario.trim(),
             token: gerarTokenSessao(),
         };
 
@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
     }, [user, logout]);
 
     const value: UContext = {
-        email: user?.email,
+        usuario: user?.usuario,
         token: user?.token,
         autenticacao,
         logout,

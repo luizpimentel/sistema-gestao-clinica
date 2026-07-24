@@ -4,7 +4,7 @@ const CHAVE_USUARIOS = 'usuarios';
 const CHAVE_SESSAO = 'u';
 
 const USUARIOS_PADRAO: UsuarioCredenciais[] = [
-    { email: 'dev', senha: 'dev' },
+    { usuario: 'dev', senha: 'dev' },
 ];
 
 export function setUserLocalStorage(user: Usuario | null): void {
@@ -60,19 +60,19 @@ export function getUsuarios(): UsuarioCredenciais[] {
     }
 }
 
-export function validarCredenciais(email: string, senha: string): boolean {
+export function validarCredenciais(usuario: string, senha: string): boolean {
     const usuarios = getUsuarios();
     
-    // Verifica se o email é realmente uma string antes do trim
-    if (typeof email !== 'string') return false;
+    // Verifica se o usuario é realmente uma string antes do trim
+    if (typeof usuario !== 'string') return false;
     
-    const emailNormalizado = email.trim().toLowerCase();
+    const usuarioNormalizado = usuario.trim().toLowerCase();
 
     return usuarios.some(
         (usuario) =>
             // Valida se o dado do "banco" não está corrompido
-            typeof usuario.email === 'string' &&
-            usuario.email.trim().toLowerCase() === emailNormalizado &&
+            typeof usuario.usuario === 'string' &&
+            usuario.usuario.trim().toLowerCase() === usuarioNormalizado &&
             usuario.senha === senha
     );
 }

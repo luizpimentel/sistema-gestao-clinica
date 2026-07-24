@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import logo from '../../recursos/logo.png'
+import logo from '@/recursos/logo.png'
 
 export const ContainerPrincipal = styled.div`
     margin:0 auto;
@@ -9,31 +9,37 @@ export const ContainerPrincipal = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--cor-secundaria);
+    background-color: var(--cor-fundo);
     z-index: 999;
     position: fixed;
 `;
 
 export const ContainerTela = styled.div`
-    min-width: 450px;
-    min-height: 350px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: 20px;
     border: 1px solid transparent;
     border-radius: 5px;
     box-shadow: 0px 0px 20px 4px rgba(0,0,0,0.19);
+    background-color: var(--cor-secundaria);
 `;
 
 export const Logo = styled.div`
-    width: 150px;
+    margin-top: -75px;
+    margin-bottom: 10px;
+    width: 100px;
     background-image: url(${logo});
     background-size: cover;
     background-positon: center;
-    height: 150px;
-    
+    height: 100px;
+    box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
+    border-radius: 50%;
+    transition: 0.5s ease;
+
+    &:hover{
+        box-shadow: 0px 0px 10px 4px var(--cor-quaternaria);
+    }
 `;
 
 export const FormLogin = styled.form`
@@ -43,84 +49,69 @@ export const FormLogin = styled.form`
     flex-direction: column;
     gap: 15px;
     padding: 10px;
+    width: 90%;
+    margin-top: auto;
 `;
 
-export const InputUsuario = styled.input`
+export const InputForm = styled.input`
     width: 100%;
-    font-size: 18px;
+    padding: 10px;
+    font-size: 14px;
     font-family: var(--font-terciaria);
-    background: transparent;
-    border: 2px solid transparent;
-    border-bottom: 1px solid #000;
+    background: var(--cor-terciaria);
+    border: 1px solid var(--cor-fundo);
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.2);
 
     transition: 0.2s ease;
 
     &:focus {
-        outline: none;
-        border-bottom: 3px solid var(--cor-terciaria);
-        
-    }
-`;
-
-export const InputSenha = styled.input`
-    width: 100%;
-    font-size: 18px;
-    font-family: var(--font-terciaria);
-    background: transparent;
-    border: 2px solid transparent;
-    border-bottom: 1px solid #000;
-
-    transition: 0.2s ease;
-
-    &:focus {
-        outline: none;
-        border-bottom: 3px solid var(--cor-terciaria);
+        outline: none;   
+        border: 1px solid var(--cor-terciaria);
+        box-shadow: 0px 0px 10px 1px var(--cor-quaternaria);
+     
     }
 `;
 
 export const BotaoEsqueciSenha = styled.button`
-    width: 50%;
     padding: 5px;
-    background-color: var(--cor-terciaria);
+    background-color: transparent;
     font-family: var(--font-terciaria);
     font-size: 12px;
     cursor: pointer;
-    border: 2px solid var(--cor-quaternaria);
-    color: #000;
-    transition: 0.3s ease;
+    border: none;
+    color: var(--cor-texto);
+    transition: 0.2s ease;
 
     &:hover {
-        color: white;
-        border: 2px solid var(--cor-principal);
-        background-color: var(--cor-principal);
+        color: var(--cor-quaternaria);
+);
     }
 `
 
 export const BotaoEntrar = styled.button`
     width: 100%;
     padding: 10px;
-    background-color: var(--cor-terciaria);
+    background-color: var(--cor-quaternaria);
     font-family: var(--font-terciaria);
     text-transform: uppercase;
     font-size: 18px;
     cursor: pointer;
-    border: 2px solid var(--cor-quaternaria);
-    color: #000;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.2);
+    color: var(--cor-terciaria);
 
     transition: 0.3s ease;
 
-
     &:hover {
-        color: white;
-        border: 2px solid var(--cor-principal);
-        background-color: var(--cor-principal);
+        background-color: var(--cor-hover-botao);
     }
 `;
 
 export const CopyRight = styled.div`
-    position: absolute;
-    bottom: 10px;
-    font-size: 14px;
+    margin-top: auto;
+    font-size: clamp(0.5rem, 2.5vw, 0.7rem);;
     font-family: var(--font-terciaria);
     color: #000;
 `;

@@ -5,7 +5,7 @@ import type { Children } from "@/interfaces";
 export const ProtectedLayout = ({ children }: Children) => {
     const auth = useAuth();
 
-    if (!auth.email) {
+    if (!auth.usuario) {
         return <Navigate to="/login" replace />;
     }
 

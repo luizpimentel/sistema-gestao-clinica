@@ -27,12 +27,17 @@ const GlobalContainer = createGlobalStyle`
         --font-principal: 'Dela Gothic One', sans-serif;
         --font-secundaria: 'CovesLight', sans-serif;
         --font-terciaria: 'CovesBold', sans-serif;
-        --cor-titulos: #170C79;
-        --cor-principal: #778873;
-        --cor-secundaria: #A1BC98;
-        --cor-terciaria: #DCCFC0;
-        --cor-quaternaria: #FDF6ED;
-        --cor-marrom-acinzentado: #534a4a;
+        
+        --cor-fundo: #a4b29e;
+        --cor-primaria: #000000;
+        --cor-secundaria: #e5eae3;
+        --cor-terciaria: #f9fbf7;
+        --cor-quaternaria: #d4c196;
+        --cor-hover-botao: #b1a27f;
+
+        --cor-titulo: #0000;
+        --cor-texto: #3b3b3b ;
+
     }
 `;
 
