@@ -14,7 +14,7 @@ export const ContainerPrincipal = styled.div`
     position: fixed;
 `;
 
-export const ContainerTela = styled.div`
+export const ContainerLog = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -73,7 +73,7 @@ export const InputForm = styled.input`
     }
 `;
 
-export const BotaoEsqueciSenha = styled.button`
+export const BotaoEsqueciSenha = styled.a`
     padding: 5px;
     background-color: transparent;
     font-family: var(--font-terciaria);

@@ -9,21 +9,31 @@ const Login = () => {
 
     const [usuario, setUsuario] = useState('');
     const [senha, setSenha] = useState('');
+    
+    const [carregando, setCarregando] = useState(false);
 
     const logar = async (evento: FormEvent<HTMLFormElement>) => {
-        evento.preventDefault();
+        evento.preventDefault();        
 
         if (!usuario || !senha) {
-            alert("Digite o usuário e senha!");
+            alert("Digite o usuário e a senha!");
             return;
         }
+
+        setCarregando(true);
 
         try {
             await auth.autenticacao(usuario, senha);
             navigate('/');
         } catch {
             alert('Usuário e/ou senha inválidos');
+        } finally{
+            setCarregando(false);
         }
+    }
+
+    const trocarSenha = () => {
+        
     }
 
     return (
@@ -32,7 +42,7 @@ const Login = () => {
             
             
 
-            <S.ContainerTela>
+            <S.ContainerLog>
                 <S.Logo></S.Logo>
 
                 <S.FormLogin onSubmit={logar}>
@@ -40,16 +50,16 @@ const Login = () => {
 
                     <S.InputForm placeholder="Digite sua senha..." type="password" value={senha} onChange={(e) => setSenha(e.target.value)} />
 
-                    <S.BotaoEsqueciSenha>Esqueci minha senha</S.BotaoEsqueciSenha>
+                    <S.BotaoEsqueciSenha onClick={trocarSenha}>Esqueci minha senha</S.BotaoEsqueciSenha>
 
-                    <S.BotaoEntrar type="submit">Entrar</S.BotaoEntrar>
+                    <S.BotaoEntrar type="submit" disabled={carregando}>{carregando ? 'Acessando...' : 'Entrar'}</S.BotaoEntrar>
                 </S.FormLogin>
 
                 <S.CopyRight>
                     © {new Date().getFullYear()}. Todos os direitos reservados.
                 </S.CopyRight>
 
-            </S.ContainerTela>
+            </S.ContainerLog>
 
 
 
