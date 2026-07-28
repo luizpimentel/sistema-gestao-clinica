@@ -1,5 +1,18 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import logo from '@/recursos/logo.png'
+
+// --- ANIMAÇÕES ---
+// Esta animação cria o efeito suave da transição "virar página"
+const animacaoSurgir = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 export const ContainerPrincipal = styled.div`
     margin:0 auto;
@@ -14,8 +27,9 @@ export const ContainerPrincipal = styled.div`
     position: fixed;
 `;
 
-export const ContainerLog = styled.div`
+export const ContainerTela = styled.div`
     display: flex;
+    min-height: 300px;
     flex-direction: column;
     align-items: center;
     padding: 20px;
@@ -31,7 +45,7 @@ export const Logo = styled.div`
     width: 100px;
     background-image: url(${logo});
     background-size: cover;
-    background-positon: center;
+    background-position: center; /* Corrigido de background-positon */
     height: 100px;
     box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
     border-radius: 50%;
@@ -51,6 +65,11 @@ export const FormLogin = styled.form`
     padding: 10px;
     width: 90%;
     margin-top: auto;
+    animation: ${animacaoSurgir} 0.8s ease-out forwards;
+`;
+
+export const FormRecuperarSenha = styled(FormLogin)`
+    margin-top: 0;
 `;
 
 export const InputForm = styled.input`
@@ -62,32 +81,30 @@ export const InputForm = styled.input`
     border: 1px solid var(--cor-fundo);
     border-radius: 5px;
     box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.2);
-
     transition: 0.2s ease;
 
     &:focus {
         outline: none;   
         border: 1px solid var(--cor-terciaria);
         box-shadow: 0px 0px 10px 1px var(--cor-quaternaria);
-     
     }
 `;
 
-export const BotaoEsqueciSenha = styled.a`
+// Alterado para 'button' para aceitar o onClick sem recarregar a página
+export const BotaoEsqueciSenha = styled.button`
     padding: 5px;
     background-color: transparent;
     font-family: var(--font-terciaria);
     font-size: 12px;
     cursor: pointer;
     border: none;
-    color: var(--cor-texto);
+    color: var(--cor-texto); /* Usa a cor padrão do texto (ajuste se necessário) */
     transition: 0.2s ease;
 
     &:hover {
         color: var(--cor-quaternaria);
-);
     }
-`
+`;
 
 export const BotaoEntrar = styled.button`
     width: 100%;
@@ -101,17 +118,39 @@ export const BotaoEntrar = styled.button`
     border-radius: 5px;
     box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.2);
     color: var(--cor-terciaria);
-
     transition: 0.3s ease;
 
     &:hover {
         background-color: var(--cor-hover-botao);
     }
+    
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+`;
+
+export const BotaoVoltar = styled.button`
+    align-self: flex-start;
+    background: transparent;
+    border: none;
+    color: var(--cor-texto); /* Ajuste para a variável de texto ou cor escura */
+    font-family: var(--font-terciaria);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 5px;
+    transition: 0.2s ease;
+
+    &:hover {
+        color: var(--cor-quaternaria);
+        transform: translateX(-3px); /* Leve efeito de mover para a esquerda ao passar o mouse */
+    }
 `;
 
 export const CopyRight = styled.div`
     margin-top: auto;
-    font-size: clamp(0.5rem, 2.5vw, 0.7rem);;
+    font-size: clamp(0.5rem, 2.5vw, 0.7rem);
     font-family: var(--font-terciaria);
     color: #000;
 `;
